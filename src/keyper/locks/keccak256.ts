@@ -23,7 +23,13 @@ class Keccak256LockScript {
   deps() {
     return [{
       outPoint: {
-        txHash: "0x25635bf587adacf95c9ad302113648f89ecddc2acfe1ea358ea99f715219c4c5",
+        txHash: "0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e",
+        index: "0x0"
+      },
+      depType: "depGroup",
+    }, {
+      outPoint: {
+        txHash: "0xe920618e2b44f2de429beb23729635679e382995fcf9eeb2d65059edf64a03e4",
         index: "0x0"
       },
       depType: "code",
@@ -68,6 +74,8 @@ class Keccak256LockScript {
   }
 
   async sign(context, rawTx, config = { index: 0, length: -1 }) {
+
+    console.log("------ keccak256.ts sign ------");
     const txHash = utils.rawTransactionToHash(rawTx);
 
     if (config.length === -1) {
@@ -116,6 +124,7 @@ class Keccak256LockScript {
     rawTx.witnesses[config.index].lock = signd;
     rawTx.witnesses[config.index] = utils.serializeWitnessArgs(rawTx.witnesses[config.index]);
 
+    console.log("------ keccak256.ts end ------");
     return rawTx;
   }
 }

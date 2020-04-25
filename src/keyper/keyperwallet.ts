@@ -1,6 +1,5 @@
 import * as scrypt from "scrypt.js";
 import { SignatureAlgorithm } from "@keyper/specs/lib";
-import { Container } from "@keyper/container/lib";
 import { scriptToHash, hexToBytes } from "@nervosnetwork/ckb-sdk-utils/lib";
 import { scriptToAddress } from "@keyper/specs/lib/address";
 import * as keystore from "@keyper/specs/lib/keystore";
@@ -11,6 +10,9 @@ const { Secp256k1LockScript } = require("@keyper/container/lib/locks/secp256k1")
 const Keccak256LockScript = require("./locks/keccak256");
 const AnyPayLockScript = require("./locks/anypay");
 const storage = require("./storage");
+
+// import { Container } from "./index";
+const { Container } = require("@keyper/container/lib");
 
 let seed, keys, container;
 let addRules = []; //Mod by River
@@ -31,8 +33,13 @@ const init = () => {
         return a;
       },
       sign: async function (context, message) {
-        const key = keys[context.publicKey];
+
+        console.log(" === provider sign begin === ");
         // console.log(" === context === ",context);
+        // console.log(" === message === ",message);
+        // console.log(" === keystoretest === ",keystoretest);
+        const key = keys[context.publicKey];
+
         // === context ===  {
         //   lockHash: '0xfd63428a2b2111a69264f13ac2e90c1254f82e2273f2147457cf366db4eef53a',
         //   password: '123456',
@@ -44,7 +51,6 @@ const init = () => {
         if (!key) {
           throw new Error(`no key for address: ${context.address}`);
         }
-        console.log(" === keystoretest === ",keystoretest);
         const privateKey = keystore.decrypt(keystoretest, context.password); //
 
         const ec = new EC('secp256k1');
@@ -59,6 +65,8 @@ const init = () => {
         const fmtR = r.toString(16).padStart(64, '0');
         const fmtS = s.toString(16).padStart(64, '0');
         const signature = `0x${fmtR}${fmtS}${this.padToEven(recoveryParam.toString(16))}`;
+        
+        console.log(" === provider sign end === ");
         return signature;
       }
     }
@@ -195,7 +203,7 @@ const generateByPrivateKey = async (privateKey, password) => {
   const ks = keystore.encrypt(privateKeyBuffer, password);
   ks.publicKey = publicKey;
 
-  console.log(" ==== ks ===",ks);
+  // console.log(" ==== ks ===",ks);
   //  [pubicKey -> Keystore]
   keystoretest = ks;
   // if (!storage.keyperStorage().get("keys")) {
@@ -218,7 +226,6 @@ const generateByPrivateKey = async (privateKey, password) => {
     payload: `0x${publicKey}`,
     algorithm: SignatureAlgorithm.secp256k1,
   });
-
   // console.log(" === scripts === ",scripts);
 
   scripts.forEach(async (script) => {
@@ -289,13 +296,13 @@ const accounts = async () => {
 }
 
 const signTx = async (lockHash, password, rawTx, config) => {
-  console.log(" === lockHash ",lockHash);
-
+  
+  // console.log(" signTx  container",container);
   const tx = await container.sign({
     lockHash: lockHash,
     password,
   }, rawTx, config);
-  console.log(JSON.stringify(rawTx));
+
   return tx;
 }
 
