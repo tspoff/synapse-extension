@@ -185,7 +185,14 @@ describe('transaction test', () => {
     //   "inputs": [
     //     {
     //       "previousOutput": {
-    //         "txHash": "0x254e6fd9954b08784ef7e210e5efb9651505eda56f184429c993b1b40c73324e",
+    //         "txHash": "0xb18bae2bfaf9ddcb8afe237e266ff5e616ca5356f9525e576719476cd37a9b90",
+    //         "index": "0x0"
+    //       },
+    //       "since": "0x0"
+    //     },
+    //     {
+    //       "previousOutput": {
+    //         "txHash": "0xb18bae2bfaf9ddcb8afe237e266ff5e616ca5356f9525e576719476cd37a9b90",
     //         "index": "0x1"
     //       },
     //       "since": "0x0"
@@ -201,7 +208,7 @@ describe('transaction test', () => {
     //       }
     //     },
     //     {
-    //       "capacity": "0x6a2bb7d000",
+    //       "capacity": "0x68a253ce00",
     //       "lock": {
     //         "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
     //         "hashType": "type",
@@ -210,7 +217,8 @@ describe('transaction test', () => {
     //     }
     //   ],
     //   "witnesses": [
-    //     "0x5500000010000000550000005500000041000000bec0b4bb83ec19ce56c5a6c9aaa7a664e5b6c51fffaec5ff72d5b427e2495f4f0b26d5369fcc14a51247739e4a3dbf0a749e1f1c68e56610f20ef9af255a0fcb01"
+    //     "0x55000000100000005500000055000000410000005459c609d10e0c35b2c7482394d20cd0fa89fbe1d37854134c5fbe3598dbca2910bc52957a44c72ab6adca4eaff6e2cbc86fd2bb5824b7bea50e1ddf696df2e900",
+    //     "0x"
     //   ],
     //   "outputsData": [
     //     "0x",

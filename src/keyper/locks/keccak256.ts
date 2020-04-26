@@ -23,18 +23,26 @@ class Keccak256LockScript {
   deps() {
     return [{
       outPoint: {
-        txHash: "0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e",
-        index: "0x0"
-      },
-      depType: "depGroup",
-    }, {
-      outPoint: {
-        txHash: "0xe920618e2b44f2de429beb23729635679e382995fcf9eeb2d65059edf64a03e4",
+        txHash: "0x25635bf587adacf95c9ad302113648f89ecddc2acfe1ea358ea99f715219c4c5",
         index: "0x0"
       },
       depType: "code",
     }];
   }
+
+  // {
+  //   outPoint: {
+  //     txHash: "0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e",
+  //     index: "0x0"
+  //   },
+  //   depType: "depGroup",
+  // }, {
+  //   outPoint: {
+  //     txHash: "0xe920618e2b44f2de429beb23729635679e382995fcf9eeb2d65059edf64a03e4",
+  //     index: "0x0"
+  //   },
+  //   depType: "code",
+  // }
 
   script(publicKey) {
     let pubKey = new Buffer(utils.hexToBytes(publicKey));

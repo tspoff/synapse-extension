@@ -6,9 +6,10 @@ import * as keystore from "@keyper/specs/lib/keystore";
 import Keystore from "../wallet/keystore";
 
 const EC = require("elliptic").ec;
-const { Secp256k1LockScript } = require("@keyper/container/lib/locks/secp256k1");
+// const { Secp256k1LockScript } = require("@keyper/container/lib/locks/secp256k1");
 const Keccak256LockScript = require("./locks/keccak256");
 const AnyPayLockScript = require("./locks/anypay");
+const { Secp256k1LockScript } = require("./locks/secp256k1");
 const storage = require("./storage");
 
 // import { Container } from "./index";
