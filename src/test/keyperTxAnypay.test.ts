@@ -50,7 +50,6 @@ describe('transaction test', () => {
 
 });
 
-
 async function createRawTx(toAmount, toLock, cells, lock) {
   const rawTx = {
     version: "0x0",

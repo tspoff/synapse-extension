@@ -83,7 +83,6 @@ class Keccak256LockScript {
 
   async sign(context, rawTx, config = { index: 0, length: -1 }) {
 
-    console.log("------ keccak256.ts sign ------");
     const txHash = utils.rawTransactionToHash(rawTx);
 
     if (config.length === -1) {

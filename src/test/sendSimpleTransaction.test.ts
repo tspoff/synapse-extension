@@ -1,4 +1,5 @@
 import { publicKeyToAddress } from "../wallet/address";
+import { parseAddress } from '';
 
 const CKB = require('@nervosnetwork/ckb-sdk-core').default
 const nodeUrl = 'http://106.13.40.34:8114/'
@@ -14,6 +15,11 @@ const sendCapacity = BigInt(11100000000);
 const sendFee = BigInt(1100000000);
 
 describe('transaction test', () => {
+
+  // parseAddress
+  it('send simple transaction', async () => {
+
+  });
 
   it('send simple transaction', async () => {
 
@@ -31,6 +37,7 @@ describe('transaction test', () => {
     //   }
     // }    
     const publicKey = ckb.utils.privateKeyToPublicKey(privateKey)
+    const address = publicKeyToAddress(publicKey);
     /**
      * to see the public key
      */
@@ -102,7 +109,7 @@ describe('transaction test', () => {
     // })
 
     const rawTransaction = ckb.generateRawTransaction({
-      fromAddress: addresses.testnetAddress,
+      fromAddress: addresses.testnetAddress, 
       toAddress: toAddress,
       capacity: sendCapacity,
       fee: sendFee,

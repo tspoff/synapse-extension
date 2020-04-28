@@ -1,4 +1,5 @@
 import { publicKeyToAddress } from "../wallet/address";
+const CkbUtils = require("@nervosnetwork/ckb-sdk-utils");
 
 const keyperwalletTest = require('../keyper/keyperwallet');
 
@@ -9,15 +10,41 @@ const ckb = new CKB(nodeUrl)
 const sendCapacity = BigInt(11100000000);
 const sendFee = BigInt(1100000000);
 
-const privateKey = "6e678246998b426db75c83c8be213b4ceeb8ae1ff10fcd2f8169e1dc3ca04df1";
+const privateKey = "448ff179b923f0602a00f68f23cb8425d30198446a1b5aa2a016deea2762b1f8";
 const password = "123456";
-const anypayAddress = "ckt1q34rnqhe6qvtulnj9ru7pdm972xwlaknde35fyy9d543s6k00rnehxuy3pat96shpxvvl7vf2e6ae55u6fk566eyvpl";
+const anypayAddress = "ckt1q34rnqhe6qvtulnj9ru7pdm972xwlaknde35fyy9d543s6k00rnehvh9kh80qc389hmm94a586mrw8v6zvhm77g4par";
+// ckt1q34rnqhe6qvtulnj9ru7pdm972xwlaknde35fyy9d543s6k00rnehwp9rjfn8f5dua6jwmxchuhkz8wtqchh5harwtj
 
 describe('anypay transaction test', () => {
 
+  // // parseAddress
+  // it('send simple transaction', async () => {
+  //   const pkHashSecp256k1 = CkbUtils.parseAddress("ckt1qyqfhpyg02ew59cfnr8lnz2kwhwd98xjd4xsscxlae", 'hex');
+  //   expect(pkHashSecp256k1).toEqual("0x9b84887ab2ea170998cff9895675dcd29cd26d4d");
+  // });
+
+  // it('send simple transaction', async () => {
+
+  //   const pkHashKeccak256 = CkbUtils.parseAddress("ckt1qjjm395fg5uc986703vs9uqzw5gljnrslgjqd4gfulrdrhmkkphs3s7nwu6x3pnl82rz3xmqypfhcway723ngkutufp", 'hex');
+  //   expect(pkHashKeccak256).toEqual("0xc3d3773468867f3a86289b6020537c3ba4f2a334");
+  // });
+  // it('send simple transaction', async () => {
+  //   const pkHashAnyPay = CkbUtils.parseAddress("ckt1q34rnqhe6qvtulnj9ru7pdm972xwlaknde35fyy9d543s6k00rnehxuy3pat96shpxvvl7vf2e6ae55u6fk566eyvpl", 'hex');
+  //   expect(pkHashAnyPay).toEqual("0x9b84887ab2ea170998cff9895675dcd29cd26d4d");
+  // });
+
+  // it('get accounts ......', async () => {
+  //   jest.setTimeout(150000);
+  //   await keyperwalletTest.init();
+  //   await keyperwalletTest.generateByPrivateKey(privateKey, password);
+  //   //   // 0001- 
+  //   const accounts = await keyperwalletTest.accounts()
+  //   console.log('accounts : ' + JSON.stringify(accounts));
+  // })
+
   it('send anypay transaction', async () => {
 
-    jest.setTimeout(100000)
+    jest.setTimeout(150000)
 
     await keyperwalletTest.init();
     await keyperwalletTest.generateByPrivateKey(privateKey, password);
@@ -32,6 +59,7 @@ describe('anypay transaction test', () => {
       }
     }
     const publicKey = ckb.utils.privateKeyToPublicKey("0x" + privateKey)
+    // const address = publicKeyToAddress(publicKey);
     /**
      * to see the public key
      */
@@ -44,8 +72,9 @@ describe('anypay transaction test', () => {
 
     const publicKeyHash = `0x${ckb.utils.blake160(publicKey, 'hex')}`
 
-    //ckt1qyqrpkej44pkt0anq8g0qv8wzlyusjx082xs2c2ux4
-    // console.log("fromAddress =>", addresses.testnetAddress);
+
+    //0xb2e5b5cef062272df7b2d7b43eb6371d9a132fbf
+    console.log("publicKeyHash =>", publicKeyHash);
 
     /**
      * to see the addresses
@@ -71,10 +100,10 @@ describe('anypay transaction test', () => {
     // const lockHash = ckb.utils.scriptToHash(lockScript)
     const lockHash = ckb.generateLockHash(publicKeyHash, anypayDep)
 
-    /**
-     * to see the lock hash
-     */
-    // console.log(lockHash)
+    // /**
+    //  * to see the lock hash
+    //  */
+    console.log(lockHash)
 
     // method to fetch all unspent cells by lock hash
     const unspentCells = await ckb.loadCells({
@@ -85,7 +114,22 @@ describe('anypay transaction test', () => {
      * to see the unspent cells
      */
     // console.log("unspentCells => ",unspentCells)
-    const rawTransaction = ckb.generateRawTransaction({
+    console.log("publicKeyHash 001=>", publicKeyHash);
+
+    const generateAnyTransaction = (params) => {
+      const rawTransaction = ckb.generateRawTransaction(
+        params
+      )
+      const outputs = rawTransaction.outputs;
+      outputs.forEach(output => {
+        const args = output.lock.args;
+        const newargs = "0x" + args.substr(64);
+        output.lock.args = newargs;
+      });
+      return rawTransaction;
+    }
+
+    const rawTransaction = generateAnyTransaction({
       fromAddress: anypayAddress,
       toAddress: anypayAddress,
       capacity: sendCapacity,
@@ -101,9 +145,8 @@ describe('anypay transaction test', () => {
       inputType: '',
       outputType: ''
     }
-
-    // console.log("=== rawTransaction ===>",rawTransaction);
-    const signedTx = ckb.signTransaction("0x"+ privateKey)(rawTransaction)
+    console.log("=== rawTransaction ===>", JSON.stringify(rawTransaction));
+    const signedTx = ckb.signTransaction("0x" + privateKey)(rawTransaction)
     /**
      * to see the signed transaction
      */
@@ -175,4 +218,3 @@ describe('anypay transaction test', () => {
 
 // console.log src/test/AnypayTransaction.test.ts:115
 // The real transaction hash is: 0xc8ee9fa27385560f2ed956034fb6abebf035ff1e64025493ca620e9c74df6615
-
