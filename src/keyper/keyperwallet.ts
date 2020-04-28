@@ -34,7 +34,7 @@ const init = () => {
       },
       sign: async function (context, message) {
 
-        console.log(" === keys === ",JSON.stringify(keys));
+        // console.log(" === keys === ",JSON.stringify(keys));
         const key = keys[context.publicKey];
         // === context ===  {
         //   lockHash: '0xfd63428a2b2111a69264f13ac2e90c1254f82e2273f2147457cf366db4eef53a',

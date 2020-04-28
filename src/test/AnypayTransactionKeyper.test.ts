@@ -116,12 +116,13 @@ describe('anypay transaction test', () => {
     // console.log("unspentCells => ",unspentCells)
     console.log("publicKeyHash 001=>", publicKeyHash);
 
-    const generateAnyTransaction = (isCustomLock, ...params) => {
+    const generateAnyTransaction = (params) => {
+      console.log("--- params ---", params);
       const rawTransaction = ckb.generateRawTransaction(
         params
       )
       //the custom lock logic
-      if(isCustomLock === 1){
+      if (params.isCustomLock === 1) {
         const outputs = rawTransaction.outputs;
         outputs.forEach(output => {
           const args = output.lock.args;
@@ -133,7 +134,6 @@ describe('anypay transaction test', () => {
     }
 
     const rawTransaction = generateAnyTransaction({
-      isCustomLock: 1,
       fromAddress: anypayAddress,
       toAddress: anypayAddress,
       capacity: sendCapacity,
@@ -141,6 +141,7 @@ describe('anypay transaction test', () => {
       safeMode: true,
       cells: unspentCells,
       deps: anypayDep,
+      isCustomLock: 1,
     })
 
     rawTransaction.witnesses = rawTransaction.inputs.map(() => '0x')
@@ -149,7 +150,7 @@ describe('anypay transaction test', () => {
       inputType: '',
       outputType: ''
     }
-    console.log("=== rawTransaction ===>", JSON.stringify(rawTransaction));
+
     //Keyer sign
     const signObj = {
       target: lockHash,
