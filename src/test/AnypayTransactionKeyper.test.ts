@@ -116,20 +116,24 @@ describe('anypay transaction test', () => {
     // console.log("unspentCells => ",unspentCells)
     console.log("publicKeyHash 001=>", publicKeyHash);
 
-    const generateAnyTransaction = (params) => {
+    const generateAnyTransaction = (isCustomLock, ...params) => {
       const rawTransaction = ckb.generateRawTransaction(
         params
       )
-      const outputs = rawTransaction.outputs;
-      outputs.forEach(output => {
-        const args = output.lock.args;
-        const newargs = "0x" + args.substr(64);
-        output.lock.args = newargs;
-      });
+      //the custom lock logic
+      if(isCustomLock === 1){
+        const outputs = rawTransaction.outputs;
+        outputs.forEach(output => {
+          const args = output.lock.args;
+          const newargs = "0x" + args.substr(64);
+          output.lock.args = newargs;
+        });
+      }
       return rawTransaction;
     }
 
     const rawTransaction = generateAnyTransaction({
+      isCustomLock: 1,
       fromAddress: anypayAddress,
       toAddress: anypayAddress,
       capacity: sendCapacity,

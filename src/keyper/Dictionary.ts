@@ -6,7 +6,7 @@ export default class Dictionary {
     has(key: any): boolean {
       return this.items.hasOwnProperty(key);
     }
-    set(key: any, val: any) {
+    set(key: any, val: string) {
       this.items[key] = val;
     }
     delete(key: any): boolean {
