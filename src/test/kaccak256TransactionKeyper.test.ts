@@ -188,7 +188,14 @@ describe('kaccak256 transaction test', () => {
   //   outputType: ''
   // }
   it('test data tx', async () => {
+    console.log(JSON.stringify(rawTransaction01));
+    
     const signedTx = ckb.signTransaction('0x' + privateKey)(rawTransaction01);
     console.log("===signedTx==", signedTx);
+    const realTxHash = await ckb.rpc.sendTransaction(signedTx)
+    /**
+     * to see the real transaction hash
+     */
+    console.log(`The real transaction hash is: ${realTxHash}`)
   })
 });
