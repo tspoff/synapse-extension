@@ -34,8 +34,6 @@ const init = () => {
         return a;
       },
       sign: async function (context, message) {
-
-        console.log(" === provider sign begin === ");
         // console.log(" === context === ",context);
         // console.log(" === message === ",message);
         // console.log(" === keystoretest === ",keystoretest);
@@ -45,9 +43,7 @@ const init = () => {
         //   lockHash: '0xfd63428a2b2111a69264f13ac2e90c1254f82e2273f2147457cf366db4eef53a',
         //   password: '123456',
         //   publicKey: '0x03d3319a7a7b8b88747664ca9559ab21e746452e8ed5eddc2f4365a1a9157e9ca2'
-        // }        
-        // console.log(" === keys === ",keys);
-        // console.log(" === key === ",key);
+        // }
 
         if (!key) {
           throw new Error(`no key for address: ${context.address}`);
@@ -66,16 +62,13 @@ const init = () => {
         const fmtR = r.toString(16).padStart(64, '0');
         const fmtS = s.toString(16).padStart(64, '0');
         const signature = `0x${fmtR}${fmtS}${this.padToEven(recoveryParam.toString(16))}`;
-        
-        console.log(" === provider sign end === ");
         return signature;
       }
     }
   }]);
   container.addLockScript(new Secp256k1LockScript());
   container.addLockScript(new Keccak256LockScript());
-  container.addLockScript(new AnyPayLockScript());
-  // console.log("init container", container);
+  container.addLockScript(new AnyPayLockScript());s
   keys = {};
   reloadKeys();
 };
@@ -227,7 +220,6 @@ const generateByPrivateKey = async (privateKey, password) => {
     payload: `0x${publicKey}`,
     algorithm: SignatureAlgorithm.secp256k1,
   });
-  // console.log(" === scripts === ",scripts);
 
   scripts.forEach(async (script) => {
     // await global.cache.addRule({
@@ -244,41 +236,6 @@ const generateByPrivateKey = async (privateKey, password) => {
   });
 
   return ks;
-};
-
-//002-导入的逻辑
-const importKey = async (privateKey, password) => {
-  const ec = new EC('secp256k1');
-  const key = ec.keyFromPrivate(privateKey);
-  const publicKey = Buffer.from(key.getPublic().encodeCompressed()).toString("hex");
-  const ks = keystore.encrypt(Buffer.from(privateKey, "hex"), password);
-  ks.publicKey = publicKey;
-
-  if (!storage.keyperStorage().get("keys")) {
-    storage.keyperStorage().set("keys", [ks]);
-  } else {
-    const keys = storage.keyperStorage().get("keys");
-    keys.push(ks);
-    storage.keyperStorage().set("keys", keys);
-  }
-
-  const scripts = container.getScripsByPublicKey({
-    payload: `0x${publicKey}`,
-    algorithm: SignatureAlgorithm.secp256k1,
-  });
-  scripts.forEach(async (script) => {
-    // await global.cache.addRule({
-    //   name: "LockHash",
-    //   data: scriptToHash(script),
-    // }, "1000");
-    // TODO 1000 应该怎么修改？ ===============Problem
-    const addRule = {
-      name: "LockHash",
-      data: scriptToHash(script),
-    }
-    addRules.push(addRule);
-  });
-  return publicKey;
 };
 
 const accounts = async () => {
