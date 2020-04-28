@@ -124,13 +124,19 @@ describe('kaccak256 transaction test', () => {
   const rawTransaction01 = {
     "version":"0x0",
     "cellDeps":[
-        {
-            "outPoint":{
-                "txHash":"0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e",
-                "index":"0x0"
-            },
-            "depType":"depGroup"
-        }
+      {
+              outPoint: {
+                txHash: "0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e",
+                index: "0x0"
+              },
+              depType: "depGroup",
+            }, {
+              outPoint: {
+                txHash: "0xe920618e2b44f2de429beb23729635679e382995fcf9eeb2d65059edf64a03e4",
+                index: "0x0"
+              },
+              depType: "code",
+            }
     ],
     "headerDeps":[
 
