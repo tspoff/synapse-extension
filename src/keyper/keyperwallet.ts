@@ -211,7 +211,6 @@ const generateByPrivateKey = async (privateKey, password) => {
   });
   // keys[`0x${publicKey}`] = key;
   keys[`0x${publicKey}`] = ks;
-  console.log("--- keys --- ",JSON.stringify(keys));
 
   const scripts = container.getScripsByPublicKey({
     payload: `0x${publicKey}`,
