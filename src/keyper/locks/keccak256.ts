@@ -117,6 +117,8 @@ class Keccak256LockScript {
     );
     hashBytes = this.mergeTypedArraysUnsafe(hashBytes, serializedEmptyWitnessBytes);
 
+    console.log('000000');
+
     for (let i = config.index + 1; i < config.index + config.length; i++) {
       const w = rawTx.witnesses[i];
       const bytes = utils.hexToBytes(
@@ -128,6 +130,8 @@ class Keccak256LockScript {
       );
       hashBytes = this.mergeTypedArraysUnsafe(hashBytes, bytes);
     };
+
+    console.log('111111');
 
     const message = this.hashMessage(createKeccakHash("keccak256").update(new Buffer(hashBytes)).digest());
 

@@ -34,7 +34,14 @@ describe('transaction test', () => {
 
     console.log("scriptToHash(lock) === ", scriptToHash(lock));
 
-    const signedTx = ckb.signTransaction('0x' + privateKey)(rawTx);
+    const signObj = {
+      target: lockHash,
+      tx: rawTx,
+      config: { index: 0, length: rawTx.witnesses.length - 1 }
+    }
+    const signedTx = await keyperwalletTest.signTx(signObj.target, password, signObj.tx, signObj.config);
+    
+    // const signedTx = ckb.signTransaction('0x' + privateKey)(rawTx);
     console.log("signedTx =>", JSON.stringify(signedTx, null, 2))
 
     const realTxHash = await ckb.rpc.sendTransaction(signedTx)
@@ -50,10 +57,16 @@ async function createRawTx(toAmount, toLock, cells, lock) {
     version: "0x0",
     cellDeps: [{
       outPoint: {
-        txHash: "0x25635bf587adacf95c9ad302113648f89ecddc2acfe1ea358ea99f715219c4c5",
+        txHash: "0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e",
         index: "0x0"
       },
       depType: "depGroup",
+    }, {
+      outPoint: {
+        txHash: "0xe920618e2b44f2de429beb23729635679e382995fcf9eeb2d65059edf64a03e4",
+        index: "0x0"
+      },
+      depType: "code",
     }],
     headerDeps: [],
     inputs: [],
