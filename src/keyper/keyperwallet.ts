@@ -10,6 +10,7 @@ const EC = require("elliptic").ec;
 const Keccak256LockScript = require("./locks/keccak256");
 const AnyPayLockScript = require("./locks/anypay");
 const { Secp256k1LockScript } = require("./locks/secp256k1");
+const SimpleUdtLockScript = require("./locks/simpleUdt");
 const storage = require("./storage");
 
 // import { Container } from "./index";
@@ -65,6 +66,7 @@ const init = () => {
   container.addLockScript(new Secp256k1LockScript());
   container.addLockScript(new Keccak256LockScript());
   container.addLockScript(new AnyPayLockScript());
+  container.addLockScript(new SimpleUdtLockScript());
   keys = {};
   reloadKeys();
 };
