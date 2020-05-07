@@ -12,7 +12,7 @@ const CKB = require('@nervosnetwork/ckb-sdk-core').default
 const nodeUrl = 'http://127.0.0.1:8114/'
 const ckb = new CKB(nodeUrl)
 
-const gPrivateKey = "8a5c5a277590ee05bb04dfb53e4dee638fb70c90b9bcf59c9f1c51e423223043";
+const gPrivateKey = "0x8a5c5a277590ee05bb04dfb53e4dee638fb70c90b9bcf59c9f1c51e423223043";
 // const gPublicKey = "0x03d3319a7a7b8b88747664ca9559ab21e746452e8ed5eddc2f4365a1a9157e9ca2";
 const password = "123456";
 const address = "ckt1qyqvkdgtra55kgh2ngcuppr5vy5pw7g5z7yqrajwwp";
@@ -91,6 +91,8 @@ describe('SimpleUdt  test', () => {
     })
 
     // 001- deps 替换
+    //0xace5ea83c478bb866edf122ff862085789158f5cbff155b7bb5f13058555b708
+    //本地测试环境的第0个TxHash
     const simpleDeps = [
       {
         "depType": "depGroup",
@@ -113,7 +115,7 @@ describe('SimpleUdt  test', () => {
     const outputs = rawTransaction.outputs;
     const output0 = outputs[0];
     //codeHash => cells.Json "hash": "0xe7f93d7120de3ca8548b34d2ab9c40fe662eec35023f07e143797789895b4869"
-    //args -> lockScript Hash结果
+    //args -> lockScript Hash结果 SimpleUDT创建者address相关表示谁创建的SimpleUDT
     output0.type = {
       "hashType": "data",
       "codeHash": "0xe7f93d7120de3ca8548b34d2ab9c40fe662eec35023f07e143797789895b4869",

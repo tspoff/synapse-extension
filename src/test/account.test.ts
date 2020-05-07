@@ -20,7 +20,7 @@ describe('mnemonic test', () => {
         //没有0x的privateKey
         const privateKey = masterKeychain.derivePath(Address.pathForReceiving(0)).privateKey.toString('hex');
         const publicKey = privateKeyToPublicKey('0x'+ privateKey);
-        const address = publicKeyToAddress('0x'+ publicKey);
+        const address = publicKeyToAddress(publicKey);
         console.log("privateKey:  ",privateKey);
         console.log("publicKey :  ",publicKey);
         console.log("address   :  ",address);
