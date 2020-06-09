@@ -20,3 +20,18 @@ script:
   - yarn test
   - yarn build
 
+before_deploy:
+  - mv dist synapse-extension
+  # 打包压缩
+  - zip -q -r synapse-extension.zip synapse-extension
+  - rm -rf dist
+  # 文件的校验和
+  - shasum synapse-extension.zip
+
+deploy:
+  provider: releases
+  token: $GITHUB_TOKEN
+  file:
+    - synapse-extension.zip
+  on:
+    tags: true
