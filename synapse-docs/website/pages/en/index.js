@@ -64,9 +64,7 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle tagline={siteConfig.tagline} title={siteConfig.title} />
           <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html')}>Example Link</Button>
-            <Button href={docUrl('doc2.html')}>Example Link 2</Button>
+            <Button href={docUrl('sdk.html')}>SDK</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -99,22 +97,6 @@ class Index extends React.Component {
         <h2>Feature Callout</h2>
         <MarkdownBlock>These are features of this project</MarkdownBlock>
       </div>
-    );
-
-    const TryOut = () => (
-      <Block id="try">
-        {[
-          {
-            content:
-              'To make your landing page more attractive, use illustrations! Check out ' +
-              '[**unDraw**](https://undraw.co/) which provides you with customizable illustrations which are free to use. ' +
-              'The illustrations you see on this page are from unDraw.',
-            image: `${baseUrl}img/undraw_code_review.svg`,
-            imageAlign: 'left',
-            title: 'Wonderful SVG Illustrations',
-          },
-        ]}
-      </Block>
     );
 
     const Description = () => (
@@ -200,7 +182,6 @@ class Index extends React.Component {
           <Features />
           <FeatureCallout />
           <LearnHow />
-          <TryOut />
           <Description />
           <Showcase />
         </div>
